@@ -1400,8 +1400,196 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="mbr-white col-md-10">
-                <h1 class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">请在这里插入【echarts情感分布散点图】！</h1>
+                <h1 class="mbr-section-title align-center pb-3 mbr-fonts-style display-5">
+                </h1>
+                <div id="container" style="height: 400px"></div>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+                      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+                      <script type="text/javascript">
+               var dom = document.getElementById("container");
+               var myChart = echarts.init(dom);
+               var app = {};
+               option = null;
+               var posList = [
+                   'left', 'right', 'top', 'bottom',
+                   'inside',
+                   'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
+                   'insideTopLeft', 'insideTopRight', 'insideBottomLeft', 'insideBottomRight'
+               ];
 
+               app.configParameters = {
+                   rotate: {
+                       min: -90,
+                       max: 90
+                   },
+                   align: {
+                       options: {
+                           left: 'left',
+                           center: 'center',
+                           right: 'right'
+                       }
+                   },
+                   verticalAlign: {
+                       options: {
+                           top: 'top',
+                           middle: 'middle',
+                           bottom: 'bottom'
+                       }
+                   },
+                   position: {
+                       options: echarts.util.reduce(posList, function (map, pos) {
+                           map[pos] = pos;
+                           return map;
+                       }, {})
+                   },
+                   distance: {
+                       min: 0,
+                       max: 100
+                   }
+               };
+
+               app.config = {
+                   rotate: 90,
+                   align: 'left',
+                   verticalAlign: 'middle',
+                   position: 'insideBottom',
+                   distance: 15,
+                   onChange: function () {
+                       var labelOption = {
+                           normal: {
+                               rotate: app.config.rotate,
+                               align: app.config.align,
+                               verticalAlign: app.config.verticalAlign,
+                               position: app.config.position,
+                               distance: app.config.distance
+                           }
+                       };
+                       myChart.setOption({
+                           series: [{
+                               label: labelOption
+                           }, {
+                               label: labelOption
+                           }, {
+                               label: labelOption
+                           }, {
+                               label: labelOption
+                           }]
+                       });
+                   }
+               };
+
+
+               var labelOption = {
+                   show: false,
+                   position: app.config.position,
+                   distance: app.config.distance,
+                   align: app.config.align,
+                   verticalAlign: app.config.verticalAlign,
+                   rotate: app.config.rotate,
+                   formatter: '{c}  {name|{a}}',
+                   fontSize: 16,
+                   rich: {
+                       name: {
+                           textBorderColor: '#fff'
+                       }
+                   }
+               };
+
+               option = {
+                   title: [{
+                       text: '起伏的情绪：公众与媒体',
+                       top:'3%',
+                       left:'50%',
+                       textAlign:'center',
+                   },{
+                       subtext:'数据来源：综合微博和媒体报道',
+                       top:'93%',
+                       left:'65%',
+                       textAlign:'left'
+                   },{
+                       subtext:'统计时间：2020年1月21日-2020年3月4日',
+                       top:'95.5%',
+                       left:'65%',
+                       textAlign:'left'
+                   }],
+                   tooltip: {
+                       trigger: 'axis'
+                   },
+                   legend: {
+                       data: ['蒸发量', '降水量']
+                   },
+                   toolbox: {
+                       show: true,
+                       feature: {
+                           dataView: {show: true, readOnly: false},
+                           magicType: {show: true, type: ['line', 'bar']},
+                           restore: {show: true},
+                           saveAsImage: {show: true}
+                       }
+                   },
+                   color: ['#003366','#e5323e'],
+                   tooltip: {
+                       trigger: 'axis',
+                       axisPointer: {
+                           type: 'shadow'
+                       }
+                   },
+                   legend: {
+                       data: ['微博', '媒体'],
+                       left:'75%',
+                       top:'4%',
+                       textAlign:'center'
+                   },
+                   toolbox: {
+                       show: true,
+                       orient: 'vertical',
+                       left: 'right',
+                       top: 'center',
+                       feature: {
+                           mark: {show: true},
+                           dataView: {show: true, readOnly: false},
+                           magicType: {show: true, type: ['line', 'scatter', 'stack', 'tiled']},
+                           restore: {show: true},
+                           saveAsImage: {show: true}
+                       }
+                   },
+                   xAxis: [
+                       {
+                           type: 'category',
+                           axisTick: {show: false},
+                           data: ['1-21', '1-22', '1-23', '1-24', '1-25','1-26','1-27','1-28','1-29','1-30','1-31','2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8','2-9','2-10','2-11','2-12','2-13','2-14','2-15','2-16','2-17','2-18','2-19','2-20','2-21','2-22','2-23','2-24','2-25','2-26','2-27','2-28','2-29','3-1','3-2','3-3','3-4']
+                       }
+                   ],
+                   yAxis: [
+                       {
+                           type: 'value'
+                       }
+                   ],
+                   series: [
+                       {
+                           name: '微博',
+                           type: 'scatter',
+                           barGap: 0,
+                           label: labelOption,
+                           data: [0.6450 ,0.7334 ,0.7225 ,0.5391 ,0.7571 ,0.7455 ,0.7788 ,0.6347 ,0.7179 ,0.7915 ,0.7842 ,0.7979 ,0.7799 ,0.6296 ,0.5537 ,0.5976 ,0.5901 ,0.6292 ,0.5887 ,0.7148 ,0.7368 ,0.7667 ,0.7241 ,0.8129 ,0.8078 ,0.7745 ,0.5735 ,0.6913 ,0.8152 ,0.8064 ,0.8086 ,0.7837 ,0.7538 ,0.7896 ,,0.7597 ,0.8163 ,0.7314 ,0.4551 ,0.6404 ,0.7398 ,0.6708 ,0.7171 ,]
+                       },
+                       {
+                           name: '媒体',
+                           type: 'scatter',
+                           label: labelOption,
+                           data: [0.8240 ,0.8598 ,0.7225 ,0.4749 ,0.7901 ,0.8533 ,0.7918 ,0.7992 ,0.7731 ,0.8393 ,0.7209 ,0.8483 ,0.6757 ,0.8131 ,0.5900 ,0.6847 ,0.6696 ,0.5841 ,0.7200 ,0.8794 ,0.7992 ,0.7289 ,0.6173 ,0.8888 ,0.8297 ,0.7911 ,0.7929 ,0.8075 ,0.7204 ,0.8660 ,0.8618 ,0.8056 ,0.8125 ,0.7361 ,0.7298 ,0.7165 ,0.8413 ,0.6925 ,0.5510 ,0.7324 ,0.7901 ,0.7704 ,0.6811 ,0.6884]
+                       }
+                   ]
+               };;
+               if (option && typeof option === "object") {
+                   myChart.setOption(option, true);
+               }
+                      </script>
 
             </div>
         </div>
